@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&family=Gochi+Hand&display=swap" rel="stylesheet">
+    <title>Posts</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        .parent-div {
+            height: 94vh;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .todo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+        .done {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+        .todo-item {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            font-family: "Gochi Hand", cursive;
+            font-style: normal;
+            justify-content: center;
+            height: 40%;
+            width: 30%;
+            padding: 36px;
+            border-radius: 5px;
+            font-size: 32px;
+        }
+        .done-item {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            font-family: "Gochi Hand", cursive;
+            font-style: normal;
+            justify-content: center;
+            height: 40%;
+            width: 30%;
+            padding: 36px;
+            border-radius: 5px;
+            text-decoration: line-through;
+            font-size: 32px;
+            box-shadow: 2px 2px 2px gray;
+            
+        }
+        .done-item:nth-child(5n) { transform: rotate(-4deg) translate(5px, 6px); }
+        .done-item:nth-child(5n+1) { transform: rotate(2deg) translate(-6px, 8px); }
+        .done-item:nth-child(5n+2) { transform: rotate(-5deg) translate(-8px, -5px); }
+        .done-item:nth-child(5n+3) { transform: rotate(-6deg) translate(7px, -4px); }
+        .done-item:nth-child(5n+4) { transform: rotate(6deg) translate(3px, -7px); }
+
+        .clear-container {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+        .clear-btn {
+            font-size: 32px;
+            background-color: white;
+            border: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent-div">
+        <div class="todo">
+        </div>
+        <div class="done">
+        </div>
+    </div>
+    <div class="clear-container">
+        <button class="clear-btn">
+            🗑️ 
+        </button>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        var todosArray = JSON.parse(localStorage.getItem("todos"));
+        var doneArray = JSON.parse(localStorage.getItem("done"));
+        if (!todosArray) {todosArray = [];}
+        if (!doneArray) {doneArray = [];}
+
+        function getRandomColor() {
+            // get random color for background color of note
+            const colorArray = ["lightblue", "lightgreen", "lightsalmon", "lightpink", "lightgray"];
+            return colorArray[Math.floor(Math.random()*colorArray.length)];
+        }
+
+        $(document).ready(function () {
+            $.each(todosArray, function(index, value) {
+                const bgColor = getRandomColor();
+                $(".todo").prepend($('<div class="todo-item">').text(value).css('background-color', bgColor));
+            });
+            $.each(doneArray, function(index, value) {
+                const bgColor = getRandomColor();
+                $(".done").append($('<div class="done-item">').text(value).css('background-color', bgColor));
+            });
+
+            // swap elements from one to other
+            $(".todo").on("click", ".todo-item" ,function() {
+                const innerText = $(this).text();
+                const bgColor = $(this).css('background-color');
+                $(this).remove();
+                todosArray.shift();
+                doneArray.push(innerText);
+                $(".done").append($('<div class="done-item">').text(innerText).css('background-color', bgColor));
+                const sound = new Audio("assets/audio/sticky-note.mp3");
+                sound.load();
+                sound.currentTime = 1;
+                sound.play();
+            });
+            $(".done").on("click", ".done-item", function() {
+                const innerText = $(this).text();
+                const bgColor = $(this).css('background-color');
+                $(this).remove();
+                doneArray.pop();
+                todosArray.unshift(innerText);
+                $(".todo").append($('<div class="todo-item">').text(innerText).css('background-color', bgColor));
+            });
+
+            $(".clear-done").on("click", function() {
+                $(".done-item").remove();
+                doneArray = [];
+            });
+        });
+
+        $(window).on("unload", function() {
+            localStorage.setItem("todos", JSON.stringify(todosArray));
+            localStorage.setItem("done", JSON.stringify(doneArray));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Todo</title>
+    <style>
+        .b-todo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            margin-top: 100px;
+            width: 80%;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 20px;
+        }
+
+        .b-todo h1 {
+            margin: 0px;
+        }
+        .todo-list {
+            padding-left: 20px;
+        }
+        .input-form {
+            display: flex;
+            justify-content: center;
+        }
+        .input-form-text {
+            width: 50%;
+            font-size: 20px;
+            border: none;
+            outline: none;
+        }
+        .input-form-submit {
+            border: none;
+            background-color: white;
+            font-size: 16px;
+        }
+        .next-button {
+            padding-top: 20px;
+            font-size: 24px;
+            border: none;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="b-todo">
+        <h1>Todo</h1>
+        <ul class="todo-list">
+        </ul>
+        <form class="input-form">
+            <input class="input-form-text" type="text" name="todo" placeholder="Enter todo item">
+            <button class="input-form-submit" type="submit">➕</button>
+        </form>
+        <button class="next-button">
+            ➡️
+        </button>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        var todosArray = JSON.parse(localStorage.getItem("todos"));
+        $(document).ready(function() {
+            $.each(todosArray, function(index, value) {
+                $(".todo-list").append($('<li class="todo-list-item">').text(value));
+            });
+
+            $(".input-form").on("submit", function(event) {
+                // on form submit add to list item
+                event.preventDefault();
+                const text = $(".input-form-text").val().trim();
+                if (text === '') return;
+                console.log(text);
+                $(".todo-list").append($('<li class="todo-list-item">').text(text));
+                $(".input-form-text").val('')
+            });
+
+            $(".todo-list").on('click', '.todo-list-item', function(event) {
+                let idx = $.inArray($(this).text(), todosArray);
+                console.log(idx);
+                todosArray.splice(idx, 1);
+                console.log(todosArray);
+                $(this).remove();
+            });
+
+            $(".next-button").on('click', function() {
+                window.location = "posts.html"
+            });
+        });
+
+        $(window).on("unload", function() {
+            let todoItems = $(".todo-list-item").map(function () {
+                return $(this).text().trim();
+            }).get();
+            localStorage.setItem("todos", JSON.stringify(todoItems));
+        });
+    </script>
+</body>
+</html>
