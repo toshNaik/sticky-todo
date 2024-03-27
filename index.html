@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PV4XYXGDLL"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-PV4XYXGDLL');
+    </script>
     <meta charset="UTF-8">
     <title>Todo</title>
     <style>
@@ -39,9 +48,30 @@
         }
         .next-button {
             padding-top: 20px;
+            padding-bottom: 20px;
             font-size: 24px;
             border: none;
             background-color: white;
+        }
+        .instructions {
+            background-color: linen;
+            margin-top: 20px;
+            padding: 10px 40px 10px 40px;
+            width: 60%;
+            border-radius: 10px;
+            text-align: justify;
+        }
+        .instructions h3 {
+            margin-bottom: 10px;
+        }
+        .instructions li {
+            line-height: 1.2em;
+            padding-top: 20px;
+            font-style: italic;
+            color: #555;
+        }
+        .instructions li span {
+            color: #000;
         }
     </style>
 </head>
@@ -57,6 +87,17 @@
         <button class="next-button">
             ➡️
         </button>
+        <hr style="width: 80%;"></hr>
+        <div class="instructions">
+            <h3 >Getting Started with Sticky Todos:</h3>
+            <ol>
+                <li><span>Break Down Your Tasks:</span> Start by breaking down your larger tasks into smaller, more manageable chunks. For instance, if your project is to build a website, divide it into smaller tasks like 'Design the landing page', 'Implement user authentication', 'Deploy the landing page', and so on. This approach makes daunting projects feel more achievable and less overwhelming.</li>
+                <li><span>Input Your Todos:</span> Enter these smaller tasks above. Once submitted, each task appears as a sticky note, giving you a clear, visual representation of your workload. This step transforms your to-do list from a daunting text block into an organized, approachable set of tasks.</li>
+                <li><span>Manage Your Tasks Effectively:</span> On the main dashboard, you will find two piles: the 'Todo Pile' and the 'Done Pile'. Start your day by reviewing the 'Todo Pile', and focus on completing the tasks one at a time, in sequence.</li>
+                <li><span>Celebrate Your Progress:</span> Each time you complete a task, click on the corresponding sticky note in the 'Todo Pile'. It will instantly move to the 'Done Pile', offering a visual representation of your progress. This simple action not only keeps your workspace organized but also triggers a sense of accomplishment and motivation, as you physically see your 'Done Pile' grow.</li>
+                <li><span>Maintain Momentum:</span> The growing 'Done Pile' acts as a visual motivator. Witnessing your achievements pile up will provide a dopamine boost, encouraging you to continue tackling tasks sequentially. This positive feedback loop is key to maintaining momentum and enhancing your productivity.</li>
+            </ol>
+        </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>

@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PV4XYXGDLL"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-PV4XYXGDLL');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,6 +83,11 @@
             font-size: 32px;
             background-color: white;
             border: 0px;
+            flex: 1;
+        }
+        .task-progress {
+            flex: 11;
+            height: 2em;
         }
     </style>
 </head>
@@ -88,6 +102,8 @@
         <button class="clear-btn">
             🗑️ 
         </button>
+        <progress class="task-progress", max="100">
+        </progress>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
@@ -111,6 +127,9 @@
                 const bgColor = getRandomColor();
                 $(".done").append($('<div class="done-item">').text(value).css('background-color', bgColor));
             });
+            var progressUnit = 100 / (todosArray.length + doneArray.length);
+            var currProgress = doneArray.length * progressUnit;
+            $(".task-progress").val(currProgress);
 
             // swap elements from one to other
             $(".todo").on("click", ".todo-item" ,function() {
@@ -119,6 +138,8 @@
                 $(this).remove();
                 todosArray.shift();
                 doneArray.push(innerText);
+                currProgress += progressUnit;
+                $(".task-progress").val(currProgress);
                 $(".done").append($('<div class="done-item">').text(innerText).css('background-color', bgColor));
                 const sound = new Audio("assets/audio/sticky-note.mp3");
                 sound.load();
@@ -131,6 +152,8 @@
                 $(this).remove();
                 doneArray.pop();
                 todosArray.unshift(innerText);
+                currProgress -= progressUnit;
+                $(".task-progress").val(currProgress);
                 $(".todo").append($('<div class="todo-item">').text(innerText).css('background-color', bgColor));
             });
 
