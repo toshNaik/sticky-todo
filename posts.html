@@ -157,7 +157,7 @@
                 $(".todo").append($('<div class="todo-item">').text(innerText).css('background-color', bgColor));
             });
 
-            $(".clear-done").on("click", function() {
+            $(".clear-btn").on("click", function() {
                 $(".done-item").remove();
                 doneArray = [];
             });
